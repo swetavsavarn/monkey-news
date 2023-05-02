@@ -1,6 +1,13 @@
 import NewsItems from "./Newsitems"
+import axios from "axios"
+import { useState, useEffect } from 'react'
 function News() {
+    const [news, setNews] = useState(null)
+    useEffect(() => {
+        axios.get('https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=fc50408656014dd8ac252dd5a7d1346b').then((res) => setNews(res.data.articles))
+    }, [])
     return (
+
         <>
             <div className="container my-3">
                 <h2 style={{ "text-align": "center" }}>Top Headlines</h2>
