@@ -1,6 +1,8 @@
 import NewsItems from "./Newsitems"
 import axios from "axios"
 import { useState, useEffect } from 'react'
+import Loading from "./Loading";
+import PageSize from "./PageSize";
 
 function News() {
     const [news, setNews] = useState([]);
@@ -8,26 +10,38 @@ function News() {
     const [disabledPButton, setDisabledPButton] = useState(false)
     const [disabledNButton, setDisabledNButton] = useState(false)
     const [totatlArticles, setTotalArticles] = useState(0)
+    const [loading, setLoading] = useState(false)
+    const [resultSize, setResultSize] = useState(10)
 
 
+
+    { loading && <Loading></Loading> }
     useEffect(() => {
         async function fetchData() {
+            setLoading(true)
+
             const res = await axios.get(
-                `https://newsapi.org/v2/top-headlines?country=in&apiKey=fc50408656014dd8ac252dd5a7d1346b&page=${page}&pagesize=10`
+                `https://newsapi.org/v2/top-headlines?country=in&apiKey=bda26b48238a4a969772d21a00c908bd&page=${page}&pagesize=${resultSize}`
             );
-            console.log("res", res)
+            setLoading(false)
+
             setTotalArticles(res.data.totalResults) 
             setNews(res.data.articles);
             // totalArticles=
         }
         fetchData()
-    }, [page]);
+    }, [page, resultSize]);
 
 
 
     return (
+        <>
+            <div className="text-end">
+                <PageSize onChange={ResultSize}></PageSize>
+            </div>
         <div className="container my-3 bg-dark">
             <h2 style={{ textAlign: "center" }}>Top Headlines</h2>
+                {loading && <Loading />}
             <div className="row my-3">
                 {news.map((newsItem, index) => (
                     <div key={index} className="col-md-4">
@@ -54,6 +68,7 @@ function News() {
 
             </div>
         </div>
+        </>
     )
     function previousButton() {
         if (page === 1) {
@@ -67,7 +82,7 @@ function News() {
         }
     }
     function nextButton() {
-        let tempSum = Math.ceil(totatlArticles / 10)
+        let tempSum = Math.ceil(totatlArticles / resultSize)
         console.log("tempsum", tempSum, page, totatlArticles)
         if (tempSum === page && tempSum !== 1) {
             setDisabledPButton(false)
@@ -83,6 +98,15 @@ function News() {
             setDisabledPButton(false)
         }
         console.log(page)
+    }
+    function ResultSize(pageSize) {
+        setResultSize(pageSize)
+
+        let tempSum = Math.ceil(totatlArticles / resultSize)
+        if (tempSum <= page) {
+            setPage(1)
+        }
+
     }
 
 }
