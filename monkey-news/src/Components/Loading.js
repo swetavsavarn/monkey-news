@@ -1,8 +1,11 @@
 function Loading() {
     return (
-        <div className="text-center">
-            <iframe src="https://giphy.com/embed/xTkcEQACH24SMPxIQg" width="100" height="100" frameBorder="100" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/hand-bored-waiting-xTkcEQACH24SMPxIQg"></a></p>
-        </div>
+        <div className=" d-flex justify-content-center">
+                <iframe src="https://giphy.com/embed/SDeVLvFCqFsSA" width="180" height="180" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/funny-harambe-SDeVLvFCqFsSA"></a></p>
+            <div className="mx-3">
+           <iframe src="https://giphy.com/embed/cegWQ66TiGYDK" width="180" height="180" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/monkey-skypedancing-dancing-cegWQ66TiGYDK"></a></p>
+           </div>
+            </div>
 
     )
 

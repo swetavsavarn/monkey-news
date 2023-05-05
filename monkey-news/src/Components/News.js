@@ -23,7 +23,7 @@ function News() {
             const res = await axios.get(
                 `https://newsapi.org/v2/top-headlines?country=in&apiKey=bda26b48238a4a969772d21a00c908bd&page=${page}&pagesize=${resultSize}`
             );
-            setLoading(false)
+            // setLoading(false)
 
             setTotalArticles(res.data.totalResults) 
             setNews(res.data.articles);
