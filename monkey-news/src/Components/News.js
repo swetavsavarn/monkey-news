@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Loading from "./Loading";
 import PageSize from "./PageSize";
 
-function News() {
+function News(props) {
     const [news, setNews] = useState([]);
     const [page, setPage] = useState(1)
     const [disabledPButton, setDisabledPButton] = useState(false)
@@ -21,7 +21,7 @@ function News() {
             setLoading(true)
 
             const res = await axios.get(
-                `https://newsapi.org/v2/top-headlines?country=in&apiKey=bda26b48238a4a969772d21a00c908bd&page=${page}&pagesize=${resultSize}`
+                `https://newsapi.org/v2/${props.category}?country=${props.country}&apiKey=bda26b48238a4a969772d21a00c908bd&page=${page}&pagesize=${resultSize}`
             );
             // setLoading(false)
 
@@ -30,7 +30,7 @@ function News() {
             // totalArticles=
         }
         fetchData()
-    }, [page, resultSize]);
+    }, [page, resultSize,props.category,props.country]);
 
 
 
@@ -109,6 +109,10 @@ function News() {
 
     }
 
+}
+News.defaultProps={
+    category:'top-headlines',
+    country:'in'
 }
 
 
