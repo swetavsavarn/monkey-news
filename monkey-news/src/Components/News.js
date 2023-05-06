@@ -16,7 +16,7 @@ function News(props) {
         async function fetchData() {
 
             const res = await axios.get(
-                `https://newsapi.org/v2/${props.category}?country=${props.country}&apiKey=fc50408656014dd8ac252dd5a7d1346b&page=${page}`
+                `https://newsapi.org/v2/${props.category}?country=${props.country}&apiKey=${process.env.REACT_APP_API_KEY}&page=${page}`
             );
             setResultSize(res.data.articles.length)
             setNews(prevNews => [...prevNews ?? [], ...res.data.articles]);
