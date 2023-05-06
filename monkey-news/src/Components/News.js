@@ -7,8 +7,6 @@ import PageSize from "./PageSize";
 function News(props) {
     const [news, setNews] = useState([]);
     const [page, setPage] = useState(1)
-    const [disabledPButton, setDisabledPButton] = useState(false)
-    const [disabledNButton, setDisabledNButton] = useState(false)
     const [totatlArticles, setTotalArticles] = useState(0)
     const [loading, setLoading] = useState(false)
     const [resultSize, setResultSize] = useState(10)
@@ -23,14 +21,13 @@ function News(props) {
             const res = await axios.get(
                 `https://newsapi.org/v2/${props.category}?country=${props.country}&apiKey=bda26b48238a4a969772d21a00c908bd&page=${page}&pagesize=${resultSize}`
             );
-            // setLoading(false)
 
             setTotalArticles(res.data.totalResults) 
             setNews(res.data.articles);
-            // totalArticles=
         }
         fetchData()
     }, [page, resultSize,props.category,props.country]);
+    const tempPageCal = Math.ceil(totatlArticles / resultSize)
 
 
 
@@ -58,10 +55,10 @@ function News(props) {
                 ))}
             </div>
             <div className="container d-flex justify-content-between"> {/* Add the "col-md-12" class to make the button take the full width of the row */}
-                <button type="button" className="btn btn-light" onClick={previousButton} disabled={disabledPButton}>
+                <button type="button" className="btn btn-light" onClick={previousButton} disabled={(tempPageCal===1 || page===1)?true:false}>
                     Previous
                 </button>
-                <button type="button" className="btn btn-light" onClick={nextButton} disabled={disabledNButton} >
+                <button type="button" className="btn btn-light" onClick={nextButton} disabled={(tempPageCal===1 || page===tempPageCal)?true:false} >
                     Next
                 </button>
 
@@ -71,33 +68,10 @@ function News(props) {
         </>
     )
     function previousButton() {
-        if (page === 1) {
-            setDisabledPButton(true)
-            setDisabledNButton(false)
-        }
-        else {
-            let tempPage = page - 1
-            setPage(tempPage)
-            setDisabledNButton(false)
-        }
+        setPage(page-1)
     }
     function nextButton() {
-        let tempSum = Math.ceil(totatlArticles / resultSize)
-        console.log("tempsum", tempSum, page, totatlArticles)
-        if (tempSum === page && tempSum !== 1) {
-            setDisabledPButton(false)
-            setDisabledNButton(true)
-        }
-        else if (tempSum === 1) {
-            setDisabledPButton(true)
-            setDisabledNButton(true)
-        }
-        else {
-            let tempPage = page + 1
-            setPage(tempPage)
-            setDisabledPButton(false)
-        }
-        console.log(page)
+            setPage(page+1)
     }
     function ResultSize(pageSize) {
         setResultSize(pageSize)
